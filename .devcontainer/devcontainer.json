@@ -1,0 +1,11 @@
+{
+	"name": "jasmin-mongo-log-dev",
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
+	"service": "configuration",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"postCreateCommand": {
+		"install": "pip install ."
+	}
+}
