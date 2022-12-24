@@ -1,7 +1,7 @@
 version: "3"
 name: jasmin-mongo-log
 services:
-  configuration:
+  logger:
     image: blackorder/dev-python
     volumes:
       - root_user:/root:z
