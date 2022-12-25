@@ -1,1 +1,1 @@
-from .logreactor import LogReactor
+from jasmin_mongo_logger.logreactor import LogReactor

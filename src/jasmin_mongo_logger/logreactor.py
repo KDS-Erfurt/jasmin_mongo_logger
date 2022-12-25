@@ -15,7 +15,7 @@ from twisted.python import log
 from txamqp.client import TwistedDelegate
 from txamqp.protocol import AMQClient
 
-from .mongodb import MongoDB
+from jasmin_mongo_logger.mongodb import MongoDB
 
 NODEFAULT: str = "REQUIRED: NO_DEFAULT"
 DEFAULT_AMQP_BROKER_HOST: str = "127.0.0.1"
