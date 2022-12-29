@@ -10,12 +10,15 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get full-upgrade -y
 RUN apt-get autoremove -y
-RUN apt-get install -y telnet
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN /usr/local/bin/python -m pip install --upgrade pip
 
-RUN pip install jasmin-mongo-logger
+WORKDIR /build
+
+COPY . .
+
+RUN pip install .
 
 CMD ["jasminmongologd"]
