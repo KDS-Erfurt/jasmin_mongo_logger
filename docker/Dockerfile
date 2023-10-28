@@ -11,14 +11,18 @@ RUN apt-get upgrade -y
 RUN apt-get full-upgrade -y
 RUN apt-get autoremove -y
 
+# clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# upgrade pip
 RUN /usr/local/bin/python -m pip install --upgrade pip
 
+# copy the source code
 WORKDIR /build
-
 COPY . .
 
+# install the package
 RUN pip install .
 
+# run the package
 CMD ["jasminmongologd"]

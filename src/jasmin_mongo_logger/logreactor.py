@@ -15,7 +15,9 @@ from twisted.python import log
 from txamqp.client import TwistedDelegate
 from txamqp.protocol import AMQClient
 
+from jasmin_mongo_logger import docker_health
 from jasmin_mongo_logger.mongodb import MongoDB
+
 
 NODEFAULT: str = "REQUIRED: NO_DEFAULT"
 DEFAULT_AMQP_BROKER_HOST: str = "127.0.0.1"
@@ -26,13 +28,13 @@ DEFAULT_LOG_LEVEL: str = "INFO"
 
 class LogReactor:
     def __init__(
-        self, mongo_connection_string: str,
-        logger_database: str,
-        logger_collection: str,
-        amqp_broker_host: str = DEFAULT_AMQP_BROKER_HOST,
-        amqp_broker_port: int = DEFAULT_AMQP_BROKER_PORT,
-        log_path: str = DEFAULT_LOG_PATH,
-        log_level: str = DEFAULT_LOG_LEVEL
+            self, mongo_connection_string: str,
+            logger_database: str,
+            logger_collection: str,
+            amqp_broker_host: str = DEFAULT_AMQP_BROKER_HOST,
+            amqp_broker_port: int = DEFAULT_AMQP_BROKER_PORT,
+            log_path: str = DEFAULT_LOG_PATH,
+            log_level: str = DEFAULT_LOG_LEVEL
     ):
         self.AMQP_BROKER_HOST = amqp_broker_host
         self.AMQP_BROKER_PORT = amqp_broker_port
@@ -107,7 +109,12 @@ class LogReactor:
                               database_name=self.MONGO_LOGGER_DATABASE)
 
         if mongosource.startConnection() is not True:
+            # set docker health to unhealthy
+            docker_health.set_health(docker_health.HeathStates.UNHEALTHY)
             return
+
+        # set docker health to healthy
+        docker_health.set_health(docker_health.HeathStates.HEALTHY)
 
         # Wait for messages
         # This can be done through a callback ...
